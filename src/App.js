@@ -1,25 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Switch, Route,BrowserRouter } from "react-router-dom";
+import Banner_single from "./components/Banner_single/Banner_single";
+import BannerWrapper from "./components/Wrapper/BannerWrapper";
+import VideoWrapper from "./components/Wrapper/VideoWrapper";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return(
+    <BrowserRouter >
+    <Switch>
+   <Route exact path='/banner' component={BannerWrapper}/>
+   <Route  path='/banner/:id' component={Banner_single}/>
+   <Route  path='/videos' component={VideoWrapper}/>
+   {/* <Route  path='/videos' component={VideoWrapper}/> */}
+   </Switch>
+   </BrowserRouter>
+   );
 }
 
 export default App;
