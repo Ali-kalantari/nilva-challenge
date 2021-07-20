@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Banner from "./../Banner/Banner";
 import "./bannercontainer.css";
+import { connect } from "react-redux";
+import { Fetchdata } from "./../../redux/actions";
 
-function BannerContainer() {
-  const url = "https://picsum.photos/v2/list?page=2&limit=100";
+function BannerContainer({ contacts, Fetchdata }) {
+  // console.log( contacts)
+  // console.log(contacts[0].then(()=>))
 
   const [data, setdata] = useState([]);
   const [n, setn] = useState(60);
-  const Fetchdata = async () => {
-    const req = await fetch(url);
-    const result = await req.json();
-    const data = result.slice(0, n);
-    const m = data.map(i => i.id)
-    console.log(m);
-    setdata(data);
-  };
+
   const handleScroll = async () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
@@ -22,14 +18,18 @@ function BannerContainer() {
     )
       return;
     console.log("Fetch more list items!");
-    const req = await fetch(url);
-    const result = await req.json();
-    const data = result.slice(0, n + 40);
-    // console.log(data);
+    // const req = await fetch(url);
+    // const result = await req.json();
+    const data = contacts[0].slice(0, n + 39);
+    console.log(data);
     setdata(data);
   };
   useEffect(() => {
     Fetchdata();
+    const mydata = contacts[0].slice(0, n);
+    // console.log(mydata)
+    setdata(mydata);
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -42,5 +42,16 @@ function BannerContainer() {
     </div>
   );
 }
-
-export default BannerContainer;
+const mapStateToProps = (state) => {
+  return {
+    contacts: state.contacts && state.contacts.allContacts,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    Fetchdata: (contact) => {
+      dispatch(Fetchdata(contact));
+    },
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(BannerContainer);
