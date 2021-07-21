@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Fetchdata } from "../../redux/actions";
 import "./banner_single.css";
 
-function Banner_single({ contacts, Fetchdata }) {
+function Banner_single() {
   const [data, setdata] = useState({});
-  const [counter, setcounter] = useState(0);
+  const [alldata, setalldata] = useState([]);
+  const [n, setn] = useState({});
   const params = useParams();
-
-  
 
   const myFetchdata = async () => {
     const req = await fetch(`https://picsum.photos/id/${params.id}/info`);
@@ -17,14 +14,25 @@ function Banner_single({ contacts, Fetchdata }) {
     setdata(result);
   };
   const banner_counter = () => {
-    setcounter(counter + 1);
+    alldata.map((item) => {
+      if (item.id === params.id) {
+        item.click += 1;
+        setn(item);
+      }
+    });
+    setalldata(alldata);
+    // console.log(alldata);
+    localStorage.setItem("data", JSON.stringify(alldata));
+    const data = localStorage.getItem("data");
+    const final = JSON.parse(data);
+    setalldata(final);
   };
+
   useEffect(() => {
     myFetchdata();
-    const count = contacts[0].filter((item) => {
-      return item.id === params.id;
-    });
-    setcounter(count[0].click);
+    const data = localStorage.getItem("data");
+    const mydata = JSON.parse(data);
+    setalldata(mydata);
   }, []);
   return (
     <>
@@ -33,24 +41,11 @@ function Banner_single({ contacts, Fetchdata }) {
           <img src={data.download_url} />
         </div>
         <div className="counter">
-          <h3>{counter}</h3>
+          <h3>{n.click}</h3>
         </div>
       </div>
     </>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    contacts: state.contacts && state.contacts.allContacts,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    Fetchdata: (contact) => {
-      dispatch(Fetchdata(contact));
-    },
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Banner_single);
+export default Banner_single;
