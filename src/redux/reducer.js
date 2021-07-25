@@ -12,14 +12,14 @@ const contactReducer = (state = initialState , action) =>{
                 allContacts:[action.payload]
             };
         case update:
-            return{
-                ...state,
-                allContacts:[allContacts.map(i=>{
-                    if(i.id === action.payload.id){
-                        i.click += 1
-                    }
-                })]
-            }
+            // return{
+                // ...state,
+                // allContacts:[allContacts.map(i=>{
+                //     if(i.id === action.payload.id){
+                //         i.click += 1
+                //     }
+                // })]
+            // }
         
         default:
             return state;
