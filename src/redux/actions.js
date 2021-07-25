@@ -1,4 +1,5 @@
 export const add = "add";
+export const update = "update";
 
 export const Fetchdata = () => async (dispatch, getState) => {
   const req = await fetch("https://picsum.photos/v2/list?page=2&limit=100");
@@ -11,3 +12,14 @@ export const Fetchdata = () => async (dispatch, getState) => {
     payload: data,
   });
 };
+
+export const increment = (id)=> (dispatch)=>{
+
+
+  dispatch({
+    type:update,
+    payload:id
+
+  })
+
+}

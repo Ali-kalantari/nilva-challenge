@@ -21,12 +21,13 @@ function BannerContainer({ contacts, Fetchdata }) {
     // const req = await fetch(url);
     // const result = await req.json();
     const data = contacts[0].slice(0, n + 39);
-    console.log(data);
+    // console.log(data);
     setdata(data);
   };
   useEffect(() => {
     Fetchdata();
     const mydata = contacts[0].slice(0, n);
+    console.log(contacts[0])
     // console.log(mydata)
     setdata(mydata);
 

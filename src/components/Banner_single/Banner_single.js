@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Fetchdata } from "../../redux/actions";
+import { increment } from "../../redux/actions";
 import "./banner_single.css";
 
-function Banner_single({ contacts, Fetchdata }) {
+function Banner_single({ contacts, increment }) {
   const [data, setdata] = useState({});
   const [counter, setcounter] = useState(0);
   const params = useParams();
@@ -17,14 +17,14 @@ function Banner_single({ contacts, Fetchdata }) {
     setdata(result);
   };
   const banner_counter = () => {
-    setcounter(counter + 1);
+    increment(params.id)
   };
   useEffect(() => {
     myFetchdata();
     const count = contacts[0].filter((item) => {
       return item.id === params.id;
     });
-    setcounter(count[0].click);
+    setcounter(contacts[0].click);
   }, []);
   return (
     <>
@@ -47,8 +47,8 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    Fetchdata: (contact) => {
-      dispatch(Fetchdata(contact));
+    increment: (contact) => {
+      dispatch(increment(contact));
     },
   };
 };
