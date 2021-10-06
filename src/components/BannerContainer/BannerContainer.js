@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Banner from "./../Banner/Banner";
 import "./bannercontainer.css";
-import { connect } from "react-redux";
-import { Fetchdata } from "./../../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchPosts,
+  selectAllPosts,
+} from "./../../features/banners/BannerSlice";
 
-function BannerContainer({ contacts, Fetchdata }) {
-  // console.log( contacts)
-  // console.log(contacts[0].then(()=>))
-
+function BannerContainer() {
+  const dispatch = useDispatch();
+  const banners = useSelector(selectAllPosts);
   const [data, setdata] = useState([]);
-  const [n, setn] = useState(60);
+  const [n] = useState(60);
 
   const handleScroll = async () => {
     if (
@@ -20,16 +22,17 @@ function BannerContainer({ contacts, Fetchdata }) {
     console.log("Fetch more list items!");
     // const req = await fetch(url);
     // const result = await req.json();
-    const data = contacts[0].slice(0, n + 39);
+    const data = banners.slice(0, n + 39);
     // console.log(data);
     setdata(data);
   };
+
   useEffect(() => {
-    Fetchdata();
-    const mydata = contacts[0].slice(0, n);
-    console.log(contacts[0])
-    // console.log(mydata)
+    dispatch(fetchPosts());
+    console.log(banners);
+    const mydata = banners.slice(0, n);
     setdata(mydata);
+    console.log(data);
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -37,22 +40,16 @@ function BannerContainer({ contacts, Fetchdata }) {
 
   return (
     <div className="banner-container">
-      {data.map((item, index) => {
+      {data.map((item) => {
         return <Banner key={item.id} item={item} />;
       })}
+      {/* {
+        banners.map(item=>{
+          return <Banner key={item.id} item={item} />
+        })
+      } */}
     </div>
   );
 }
-const mapStateToProps = (state) => {
-  return {
-    contacts: state.contacts && state.contacts.allContacts,
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    Fetchdata: (contact) => {
-      dispatch(Fetchdata(contact));
-    },
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(BannerContainer);
+
+export default BannerContainer;
