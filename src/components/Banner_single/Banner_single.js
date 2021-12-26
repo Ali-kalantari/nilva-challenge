@@ -5,7 +5,7 @@ import "./banner_single.css";
 function Banner_single() {
   const [data, setdata] = useState({});
   const [alldata, setalldata] = useState([]);
-  const [n, setn] = useState({});
+  const [n, setn] = useState({click:0});
   const params = useParams();
 
   const myFetchdata = async () => {
@@ -33,7 +33,10 @@ function Banner_single() {
     const data = localStorage.getItem("data");
     const mydata = JSON.parse(data);
     setalldata(mydata);
+    const click = mydata.find(i => i.id == params.id)
+    setn({click:click.click})
   }, []);
+
   return (
     <>
       <div className="single-banner-container">

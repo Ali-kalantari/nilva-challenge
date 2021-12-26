@@ -3,7 +3,7 @@ import "./Video.css";
 import Video from "../Video/Video";
 
 function VideoContainer() {
-  const [data, setdata] = useState([
+  const [data] = useState([
     "117",
     "118",
     "119",

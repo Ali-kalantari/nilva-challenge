@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route,BrowserRouter } from "react-router-dom";
+import { Switch, Route,BrowserRouter,Redirect } from "react-router-dom";
 import Banner_single from "./components/Banner_single/Banner_single";
 import BannerWrapper from "./components/Wrapper/BannerWrapper";
 import VideoWrapper from "./components/Wrapper/VideoWrapper";
@@ -12,6 +12,7 @@ function App() {
    <Route  path='/banner/:id' component={Banner_single}/>
    <Route  path='/videos' component={VideoWrapper}/>
    {/* <Route  path='/videos' component={VideoWrapper}/> */}
+   <Redirect from="/" to="/banner" />
    </Switch>
    </BrowserRouter>
    );
